@@ -4,7 +4,9 @@ import logo from './logo.svg';
 import './App.css';
 import UserList from "./components/User.js";
 import Footer from "./components/Footer.js";
-import Menu from "./components/Menu.js";
+import UserList1 from "./components/Menu.js";
+
+
 class App extends React.Component {
      constructor(props) {
        super(props)
@@ -48,6 +50,10 @@ componentDidMount() {
     render () {
          return(
              <div>
+                 <div>
+                      <UserList1 users={this.state.users}/>
+                 </div>
+
                   <div>
                       <UserList users={this.state.users}/>
                   </div>
