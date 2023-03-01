@@ -14,7 +14,7 @@ class TODO(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     text=models.TextField()
     create=models.DateTimeField(auto_now_add=True)
-    update= models.DateTimeField(auto_now_add=True)
+    update= models.DateTimeField(auto_now=True)
     creator=models.ForeignKey(User, models.PROTECT)
     is_active=models.BooleanField(default=True)
 
