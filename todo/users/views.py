@@ -15,6 +15,7 @@ from rest_framework.decorators import action
 class UserCustomViewSet(mixins.UpdateModelMixin,mixins.ListModelMixin, mixins.RetrieveModelMixin,
                      viewsets.GenericViewSet):
 
+
     queryset = User.objects.all()
     serializer_class = UserModelSerializer
     renderer_classes = [JSONRenderer, BrowsableAPIRenderer]
