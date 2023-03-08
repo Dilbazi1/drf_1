@@ -3,8 +3,8 @@ from .models import TODO
 
 
 class TODOFilter(filters.FilterSet):
-    name= filters.CharFilter(lookup_expr='contains')
+    text= filters.CharFilter(lookup_expr='contains')
 
     class Meta:
         model = TODO
-        fields = ['name']
+        fields = ['text']
