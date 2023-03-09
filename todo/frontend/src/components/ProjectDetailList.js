@@ -1,5 +1,5 @@
+import {Link, useParams} from "react-router-dom";
 import React from "react";
-import {Link, useParams} from 'react-router-dom'
 const ProjectItem=({project})=>{
     return (
         <tr>
@@ -7,7 +7,7 @@ const ProjectItem=({project})=>{
                 {project.id}
             </td>
             <td>
-                <Link to={`/project/${project.id}`}>{project.name}</Link>
+                {project.name}
             </td>
             <td>
                 {project.repository}
@@ -19,9 +19,14 @@ const ProjectItem=({project})=>{
         </tr>
     )
 }
-const ProjectList= ({projects}) =>{
+
+const ProjectDetailList=({projects})=>{
+    let {id}=useParams()
+     console.log()
+    let filter_item=projects.filter((project=>project.id===parseInt(id)))
+
     return(
-        <table>
+         <table>
             <thead>
             <tr>
                <th>
@@ -38,9 +43,9 @@ const ProjectList= ({projects}) =>{
                 </th>
              </tr>
             </thead>
-            {projects.map((project)=><ProjectItem project={project}/>)}
+            {filter_item.map((project)=><ProjectItem project={project}/>)}
         </table>
     )
-}
 
-export default ProjectList
+}
+export default ProjectDetailList
