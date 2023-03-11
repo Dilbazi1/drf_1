@@ -6,6 +6,7 @@ from .models import User
 from .serializers import UserModelSerializer
 
 from rest_framework.renderers import JSONRenderer ,BrowsableAPIRenderer
+from rest_framework.permissions import IsAdminUser,BasePermission
 from rest_framework.decorators import action
 
 

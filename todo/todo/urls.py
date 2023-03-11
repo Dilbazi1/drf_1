@@ -28,9 +28,11 @@ router.register('users', UserCustomViewSet)
 router.register('project', ProjectModelViewSet)
 router.register('TODO', TODOModelViewSet)
 
+from rest_framework.authtoken import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),
     path('api/', include(router.urls)),
     path('filters/', include(filter_router.urls)),
+    path('api-token-auth/', views.obtain_auth_token)
 ]
