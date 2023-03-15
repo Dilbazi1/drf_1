@@ -10,7 +10,7 @@ class ProjectModelSerializers(ModelSerializer):
 
 
 class TODOModelSerializers(ModelSerializer):
-
+    # project=ProjectModelSerializers()
     class Meta:
         model = TODO
         fields = '__all__'
