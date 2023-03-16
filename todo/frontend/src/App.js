@@ -50,7 +50,8 @@ get_token(username, password) {
         axios.post('http://127.0.0.1:8000/api-token-auth/', {username: username,
         password: password})
         .then(response => {
-        this.set_token(response.data['token'])
+
+        this.set_token(response.data.results['token'])
         }).catch(error => alert('Неверный логин или пароль'))
 }
 get_headers(){
@@ -200,7 +201,6 @@ componentDidMount() {
 
 
 }
-
 
 
 
