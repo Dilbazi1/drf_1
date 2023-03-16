@@ -1,3 +1,4 @@
+
 import React from 'react';
 import axios from 'axios';
 import logo from './logo.svg';
@@ -24,44 +25,60 @@ class App extends React.Component {
            "users": [],
            "projects":[],
            'todos':[],
-           'token':[],
+           'token':'',
        }
 
 }
-set_token(token){
-         const cookies=new Cookies()
-         cookies.set({'token':token})
-         this.setState({'token':token} ,()=>this.load_data())
-
-     }
+// set_token(token){
+//          const cookies=new Cookies()
+//          cookies.set({'token':token})
+//          this.setState({'token':token} ,()=>this.load_data())
+//
+//      }
 is_authenticated(){
-         return this.state.token!=''
+         return !!this.state.token
 }
 logout(){
-         this.set_token('')
-}
-get_token_from_storoge(){
-         const cookies=new Cookies()
-         const token=cookies.get('token')
-         this.setState({'token':token},()=>this.load_data())
-}
+         localStorage.setItem('token','')
+         this.setState({
+            'token':''
+         },this.load_data)
 
-get_token(username, password) {
-        axios.post('http://127.0.0.1:8000/api-token-auth/', {username: username,
+}
+// get_token_from_storoge(){
+//          const cookies=new Cookies()
+//          const token=cookies.get('token')
+//          this.setState({'token':token},()=>this.load_data())
+// }
+
+get_token(login, password) {
+         // console.log('get_token:',login,password)
+        axios.post('http://127.0.0.1:8000/api-token-auth/', {username: login,
         password: password})
         .then(response => {
+            const token =response.data.token
+             console.log('token:',token)
+            localStorage.setItem('token',token)
+            this.setState({'token':token},this.load_data)
 
-        this.set_token(response.data.results['token'])
-        }).catch(error => alert('Неверный логин или пароль'))
+
+            // this.set_token(response.data['token'])
+        }).catch(error => alert('Неверный логин или пароль '))
 }
 get_headers(){
-         let headers={
-             'Content-Type':'aplication/json'
+         if(this.is_authenticated()){
+             return {
+                 'Authorization':'Token '+this.state.token
+             }
+             return {}
          }
-         if (this.is_authenticated()){
-             headers["Authorization"]='Token'+this.state.token
-         }
-         return headers
+         // let headers={
+         //     'Content-Type':'aplication/json'
+         // }
+         // if (this.is_authenticated()){
+         //     headers["Authorization"]='Token'+this.state.token
+         // }
+         // return headers
 }
 
 
@@ -81,19 +98,20 @@ getProject(id){
 
 }
 load_data(){
-         const headers=this.get_headers()
-         axios.get(' http://127.0.0.1:8000/api/users/',{headers}).then(response=>{
-            const users=response.data.results
-            this.setState(
-                {
-                       'users':users
-                }
-            )
-        }).catch(error => console.log(error))
 
-    axios.get(' http://127.0.0.1:8000/api/project/',{headers}).then(response=>{
-            const projects=response.data.results
-            this.setState(
+         let headers=this.get_headers()
+         axios.get(' http://127.0.0.1:8000/api/users/',{headers}).then(response=>{
+                 const users=response.data.results
+                 this.setState(
+                     {
+                           'users':users
+                  }
+               )
+             }).catch(error => console.log(error))
+
+         axios.get(' http://127.0.0.1:8000/api/project/',{headers}).then(response=>{
+               const projects=response.data.results
+             this.setState(
                 {
                        'projects':projects
                 }
@@ -137,8 +155,12 @@ componentDidMount() {
     //                    'users':users
     //             }
     //         )
-     this.get_token_from_storoge()
-     // this.load_data()
+    //  this.get_token_from_storoge()
+    let token =localStorage.getItem('token')
+    this.setState({
+        'token':token
+    },this.load_data)
+
 }
     render () {
          return(
@@ -175,7 +197,8 @@ componentDidMount() {
                               <Route  path='projects' element={ <ProjectList projects={this.state.projects}/> }/>
 
                               <Route  path='/todos/' element={ <TodoList todos={this.state.todos}/>} />
-                              <Route path='/login' element={<LoginForm get_token={(username, password) => this.get_token(username, password)} />}/>
+                              <Route path='/login' element={<LoginForm get_token={(login,
+               password) => this.get_token(login, password)} />}/>
                                <Route path='project/:id' element={<ProjectDetailList projects={this.state.projects}/>}/>
                                <Route  path='*' element={<Notfound404/>}/>
                           </Routes>
