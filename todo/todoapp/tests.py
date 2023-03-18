@@ -9,3 +9,14 @@ from .views import ProjectModelViewSet
 from .models import Project,TODO
 
 
+
+class TestProjectViewset(TestCase):
+    def test_get_list(self):
+        factory=APIRequestFactory()
+        request=factory.get('/api/projects/')
+        view= ProjectModelViewSet.as_view({'get':'list'})
+        response=view(request)
+        self.assertEqual(response.status_code,status.HTTP_200_OK)
+
+
+
