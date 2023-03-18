@@ -19,7 +19,7 @@ const UserList1= ({users}) =>{
             <a href="#news">News</a>
             <a href="#contact">Contact</a>
             <a href="#about">About</a>
-            {users.map((user)=><UserItem user={user}/>)}
+            {/*{users.map((user)=><UserItem user={user}/>)}*/}
 
 
 
@@ -30,7 +30,6 @@ const UserList1= ({users}) =>{
 
 }
 export default UserList1
-
 
 
 

@@ -10,6 +10,7 @@ from rest_framework.permissions import IsAdminUser,BasePermission
 from rest_framework.decorators import action
 
 
+
 # class UserModelViewSet(ModelViewSet):
 #     queryset = User.objects.all()
 #     serializer_class = UserModelSerializer
@@ -20,4 +21,6 @@ class UserCustomViewSet(mixins.UpdateModelMixin,mixins.ListModelMixin, mixins.Re
     queryset = User.objects.all()
     serializer_class = UserModelSerializer
     renderer_classes = [JSONRenderer, BrowsableAPIRenderer]
+
+    #
 

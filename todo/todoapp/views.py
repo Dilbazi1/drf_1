@@ -1,4 +1,5 @@
 from rest_framework.viewsets import ModelViewSet
+from rest_framework import permissions
 from .models import Project, TODO
 from .serializers import ProjectModelSerializers, TODOModelSerializers
 from rest_framework.pagination import LimitOffsetPagination
@@ -20,6 +21,7 @@ class ProjectModelViewSet(ModelViewSet):
     queryset = Project.objects.all()
     serializer_class = ProjectModelSerializers
     pagination_class = ProjectPagination
+    # permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
         name = self.request.query_params.get('name', '')
