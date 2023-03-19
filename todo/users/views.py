@@ -14,7 +14,7 @@ from rest_framework.decorators import action
 # class UserModelViewSet(ModelViewSet):
 #     queryset = User.objects.all()
 #     serializer_class = UserModelSerializer
-class UserCustomViewSet(mixins.UpdateModelMixin,mixins.ListModelMixin, mixins.RetrieveModelMixin,
+class UserCustomViewSet(mixins.CreateModelMixin,mixins.UpdateModelMixin,mixins.ListModelMixin, mixins.RetrieveModelMixin,
                      viewsets.GenericViewSet):
 
 

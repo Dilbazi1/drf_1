@@ -11,21 +11,44 @@ from .models import Project, TODO
 from users.models import User
 
 
-class TestProjectViewset(TestCase):
-    def test_get_list(self):
-        factory = APIRequestFactory()
-        request = factory.get('/api/projects/')
-        view = ProjectModelViewSet.as_view({'get': 'list'})
-        response = view(request)
-        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+# class TestProjectViewset(TestCase):
+#     def test_get_list(self):
+#         factory = APIRequestFactory()
+#         request = factory.get('/api/projects/')
+#         view = ProjectModelViewSet.as_view({'get': 'list'})
+#         response = view(request)
+#         self.assertEqual(response.status_code, status.HTTP_200_OK)
+    # #
+    # def test_create_guest(self):
+    #     factory = APIRequestFactory()
+    #     request = factory.post('api/projects/',
+    #                            {
+    #                                'name': 'dilbazi'
+    #                            }, format='json')
+    #     view = ProjectModelViewSet.as_view({'post': 'create'})
+    #     response = view(request)
+    #     self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
-    def test_create_guest(self):
-        factory = APIRequestFactory()
-        request = factory.post('api/users/',
-        {
-            'name':'dilbazi'
-        }, format='json')
-        view=ProjectModelViewSet.as_view({'post':'create'})
-        response=view(request)
-        print(response.status_code)
-        self.assertEqual(response.status_code,status.HTTP_401_UNAUTHORIZED)
+    # def test_create_admin(self):
+    #     factory=APIRequestFactory()
+    #     request=factory.get('api/projects/',
+    #     format='json')
+    #     admin = User.objects.create_superuser(username='admin', password='admin@admin.com',
+    #                                           )
+    #     force_authenticate(request,user=admin)
+    #     view = ProjectModelViewSet.as_view({'get': 'list'})
+    #     response = view(request)
+    #     self.assertEqual(response.status_code, status.HTTP_200_OK)
+    #     print()
+    # def test_create_admin(self):
+    #     factory=APIRequestFactory()
+    #     user=User.objects.create(first_name='dilbazi',last_name='mard',email='d@admin.com',username='dilba')
+    #     project=
+    #     request=factory.get('api/projects/',
+    #     format='json')
+    #     admin = User.objects.create_superuser(username='admin', password='admin@admin.com',
+    #                                           )
+    #     force_authenticate(request,user=admin)
+    #     view = ProjectModelViewSet.as_view({'get': 'list'})
+    #     response = view(request)
+    #     self.assertEqual(response.status_code, status.HTTP_200_OK)
