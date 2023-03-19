@@ -21,3 +21,11 @@ class TestProjectViewset(TestCase):
         view = UserCustomViewSet.as_view({'post': 'create'})
         response = view(request)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+    def test_get_detail(self):
+
+        user = User.objects.create(first_name='dilbazi', last_name='mard', email='d@admin.com', username='dilba')
+        client=APIClient()
+        response=client.get(f'/api/users/{user.id}/')
+        self.assertEqual(response.status_code,status.HTTP_200_OK)
+

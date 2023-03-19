@@ -26,7 +26,7 @@ from users.models import User
     #                                'name': 'dilbazi'
     #                            }, format='json')
     #     view = ProjectModelViewSet.as_view({'post': 'create'})
-    #     response = view(request)
+    #     response = view(request)dZzw
     #     self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     # def test_create_admin(self):
