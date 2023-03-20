@@ -12,14 +12,14 @@ from users.models import User
 
 
 class TestProjectViewset(TestCase):
-    def test_get_list(self):
+    def test_get_list5(self):
         factory = APIRequestFactory()
         request = factory.get('/api/projects/')
         view = ProjectModelViewSet.as_view({'get': 'list'})
         response = view(request)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
     #
-    def test_create_guest(self):
+    def test_create_guest4(self):
         factory = APIRequestFactory()
         request = factory.post('api/projects/',
                                {
@@ -29,7 +29,7 @@ class TestProjectViewset(TestCase):
         response = view(request)
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
-    def test_create_admin(self):
+    def test_create_admin4(self):
         factory=APIRequestFactory()
         request=factory.get('api/projects/',
         format='json')
@@ -43,7 +43,7 @@ class TestProjectViewset(TestCase):
 
 
 class TestProjectViewset(TestCase):
-    def test_create_admin(self):
+    def test_create_admin1(self):
         factory = APIRequestFactory()
 
         request = factory.post('/api/users/', {'firs_name': 'Пушкин','last_name':"alexandr",'username':"pushkin",'email':"pushkin@gmail.com"
@@ -61,13 +61,13 @@ class TestProjectViewset(TestCase):
         client=APIClient()
         response=client.get(f'/api/users/{user.id}/')
         self.assertEqual(response.status_code,status.HTTP_200_OK)
-    def test_get_detail(self):
+    def test_get_detail1(self):
 
         user = User.objects.create(first_name='dilbazi', last_name='mard', email='d@admin.com', username='dilba')
         client=APIClient()
         response=client.put(f'/api/users/{user.id}/',{'firstname':'ib','email':"email@gmsil.com"})
         self.assertEqual(response.status_code,status.HTTP_401_UNAUTHORIZED)
-    def test_edit_admin(self):
+    def test_edit_admin2(self):
          user=User.objects.create(first_name='dilbazi2', last_name='mard2', email='d2@admin.com', username='dilba2')
          client=APIClient()
          admin = User.objects.create_superuser('admin', 'admin@admin.com',
@@ -85,13 +85,13 @@ class TestMath(APISimpleTestCase):
         import math
         self.assertEqual(math.sqrt(4),2)
 class TestUserViewset(APITestCase):
-    def test_get_list(self):
+    def test_get_list4(self):
         response=self.client.get('/api/users/')
         self.assertEqual(response.status_code,status.HTTP_200_OK)
-    def test_get_list(self):
+    def test_get_list2(self):
         response=self.client.get('/api/project/')
         self.assertEqual(response.status_code,status.HTTP_200_OK)
-    def test_edit_admin(self):
+    def test_edit_admin3(self):
         user = User.objects.create(first_name='dilbazi2', last_name='mard2', email='d2@admin.com', username='dilba2')
 
         admin = User.objects.create_superuser('admin', 'admin@admin.com',
