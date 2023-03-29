@@ -12,7 +12,7 @@ import MenuList1 from "./components/Menu.js";
 import  Notfound404 from "./components/Notfound404.js";
 import  LoginForm from "./components/Auth.js";
 import  ProjectForm from "./components/ProjectForm.js";
-import {HashRouter,BrowserRouter,Route,Routes,Link} from "react-router-dom";
+import {HashRouter,BrowserRouter,Route,Routes,Link,Navigate} from "react-router-dom";
 import Cookies from "universal-cookie";
 
 
@@ -30,6 +30,20 @@ class App extends React.Component {
            'redirect': false
        }
 
+}
+deleteProject(projectId){
+    let headers=this.get_headers()
+    axios
+            .delete(`http://127.0.0.1:8000/api/project/${projectId}`, {headers})
+            .then(response => {
+                this.setState({
+                    'projects': this.state.projects.filter((project) => project.id != projectId)
+                })
+            })
+            .catch(error => {
+                console.log(error)
+            })
+//        console
 }
 // set_token(token){
 //          const cookies=new Cookies()
@@ -52,13 +66,17 @@ logout(){
 //          const token=cookies.get('token')
 //          this.setState({'token':token},()=>this.load_data())
 // }
-createProject(id,name,repository,users){
-          console.log(id,name,repository, users)
+createProject(name,repository,users){
+          console.log(name,repository, users)
          let headers=this.get_headers()
          axios.post(' http://127.0.0.1:8000/api/project/',
-             {id:id,name:name,repository:repository,users:users},{headers})
+             {name:name,repository:repository,users:users},{'headers':headers})
              .then(response=>{
-                 this.load_data()
+                 this.setState(
+                     {
+                         'redirect':'/projects'
+                     },this.load_data
+                 )
 
              }).catch(error => {console.log(error)
              this.setState({users:[]})}
@@ -114,7 +132,9 @@ getProject(id){
 
 }
 load_data(){
-
+         this.setState({
+            'redirect': false
+        })
          let headers=this.get_headers()
          axios.get(' http://127.0.0.1:8000/api/users/',{headers}).then(response=>{
                  const users=response.data
@@ -188,6 +208,7 @@ componentDidMount() {
                   <div>
 
                       <BrowserRouter>
+                          {this.state.redirect ? <Navigate to={this.state.redirect} /> : <div/>}
                           <nav>
                               <ul>
                                   <li>
@@ -213,7 +234,7 @@ componentDidMount() {
 
                           <Routes>
                               <Route  path='/' element={ <UserList users={this.state.users}/>} />
-                              <Route  path='projects' element={ <ProjectList projects={this.state.projects}/> }/>
+                              <Route  path='projects' element={ <ProjectList projects={this.state.projects} deleteProject={(projectId) => this.deleteProject(projectId)}/> }/>
                               <Route  path='create_project' element={ <ProjectForm
                                   users={this.state.users}
                                   createProject={(id,name,repository,users)=>this.createProject(id,name,repository,users)}/> }/>

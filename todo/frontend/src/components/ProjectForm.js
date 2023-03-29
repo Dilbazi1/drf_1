@@ -5,7 +5,7 @@ class ProjectForm extends React.Component{
         // console.log(props)
         // this.get_token=props.get_token
         this.state={
-              'id':0,
+              
             'name':'',
             'repository':'',
             'users':[]
@@ -36,7 +36,7 @@ class ProjectForm extends React.Component{
 
     }
     handleSubmit(event){
-        this.props.createProject(this.state.id,this.state.name,this.state.repository, this.state.users)
+        this.props.createProject(this.state.name,this.state.repository, this.state.users)
         //
         // console.log(this.state.id,this.state.name,this.state.repository, this.state.users)
         event.preventDefault()
@@ -45,8 +45,8 @@ class ProjectForm extends React.Component{
         return(
             <div>
             <form onSubmit={(event)=>this.handleSubmit(event)}>
-                 <input type='number' name='id' placeholder='id' value={this.state.id}
-                        onChange={(event) => this.handleChange(event)}/>
+                 {/*// <input type='number' name='id' placeholder='id' value={this.state.id}*/}
+                 {/*//        onChange={(event) => this.handleChange(event)}/>*/}
 
                 <input type='text' name='name' placeholder='name' value={this.state.name}
                        onChange={(event) => this.handleChange(event)}/>
