@@ -27,7 +27,7 @@ class ProjectForm extends React.Component{
         }
         let users=[]
         for(let option of event.target.selectedOptions){
-            users.push(option.value)
+            users.push(+option.value)
         }
 
         this.setState({
