@@ -8,9 +8,10 @@ import ProjectList from "./components/Project.js";
 import  ProjectDetailList from "./components/ProjectDetailList.js";
 import TodoList from "./components/Todo.js";
 import Footer from "./components/Footer.js";
-import UserList1 from "./components/Menu.js";
+import MenuList1 from "./components/Menu.js";
 import  Notfound404 from "./components/Notfound404.js";
 import  LoginForm from "./components/Auth.js";
+import  ProjectForm from "./components/ProjectForm.js";
 import {HashRouter,BrowserRouter,Route,Routes,Link} from "react-router-dom";
 import Cookies from "universal-cookie";
 
@@ -26,6 +27,7 @@ class App extends React.Component {
            "projects":[],
            'todos':[],
            'token':'',
+           'redirect': false
        }
 
 }
@@ -50,7 +52,21 @@ logout(){
 //          const token=cookies.get('token')
 //          this.setState({'token':token},()=>this.load_data())
 // }
+createProject(id,name,repository,users){
+          console.log(id,name,repository, users)
+         let headers=this.get_headers()
+         axios.post(' http://127.0.0.1:8000/api/project/',
+             {id:id,name:name,repository:repository,users:users},{headers})
+             .then(response=>{
+                 this.load_data()
 
+             }).catch(error => {console.log(error)
+             this.setState({users:[]})}
+         )
+
+
+
+}
 get_token(login, password) {
          // console.log('get_token:',login,password)
         axios.post('http://127.0.0.1:8000/api-token-auth/', {username: login,
@@ -101,7 +117,7 @@ load_data(){
 
          let headers=this.get_headers()
          axios.get(' http://127.0.0.1:8000/api/users/',{headers}).then(response=>{
-                 const users=response.data.results
+                 const users=response.data
                  this.setState(
                      {
                            'users':users
@@ -166,7 +182,7 @@ componentDidMount() {
          return(
              <div>
                  <div>
-                      <UserList1 users={this.state.users}/>
+                      <MenuList1 users={this.state.users}/>
                  </div>
 
                   <div>
@@ -184,6 +200,9 @@ componentDidMount() {
                                       <Link to='/todos'>Todos</Link>
                                   </li>
                                   <li>
+                                      <Link to='/create_project'>Create project</Link>
+                                  </li>
+                                  <li>
                                       {this.is_authenticated()?
                                           <button onClick={()=>this.logout()}>Logout</button>:
                                       <Link to='/login'>Login</Link>}
@@ -195,10 +214,13 @@ componentDidMount() {
                           <Routes>
                               <Route  path='/' element={ <UserList users={this.state.users}/>} />
                               <Route  path='projects' element={ <ProjectList projects={this.state.projects}/> }/>
+                              <Route  path='create_project' element={ <ProjectForm
+                                  users={this.state.users}
+                                  createProject={(id,name,repository,users)=>this.createProject(id,name,repository,users)}/> }/>
 
                               <Route  path='/todos/' element={ <TodoList todos={this.state.todos}/>} />
-                              <Route path='/login' element={<LoginForm get_token={(login,
-               password) => this.get_token(login, password)} />}/>
+                              <Route path='/login' element={<LoginForm
+                                  get_token={(login, password) => this.get_token(login, password)} />}/>
                                <Route path='project/:id' element={<ProjectDetailList projects={this.state.projects}/>}/>
                                <Route  path='*' element={<Notfound404/>}/>
                           </Routes>

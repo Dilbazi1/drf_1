@@ -11,7 +11,7 @@ const UserItem=({user})=>{
 
     )
 }
-const UserList1= ({users}) =>{
+const MenuList1= ({users}) =>{
 
     return(
         <div className="topnav">
@@ -29,7 +29,7 @@ const UserList1= ({users}) =>{
     )
 
 }
-export default UserList1
+export default MenuList1
 
 
 
