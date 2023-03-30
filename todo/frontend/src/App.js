@@ -52,9 +52,10 @@ deleteTodo(todoId){
     axios
             .delete(`http://127.0.0.1:8000/api/TODO/${todoId}`, {headers})
             .then(response => {
-                this.setState({
-                      'todos': this.state.todos.filter((todo) => todo.id != todoId)
-                })
+
+                    this.load_data()
+
+
             })
             .catch(error => {
                 console.log(error)

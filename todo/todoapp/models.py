@@ -13,7 +13,7 @@ class Project(models.Model):
 
 class TODOManager(models.Manager):
     def get_queryset(self):
-        return super().get_queryset().filter(deleted=False,project__in=Project.objects.all())
+        return super().get_queryset().filter(is_active=False,project__in=Project.objects.all())
 
 class TODO(models.Model):
     objects=TODOManager()
