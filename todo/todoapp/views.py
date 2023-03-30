@@ -41,6 +41,8 @@ class TODOModelViewSet(ModelViewSet):
     pagination_class = TODOPagination
     filterset_class = TODOFilter
 
+
+
     def destroy(self, request, *args, **kwargs):
         try:
             instance = self.get_object()
