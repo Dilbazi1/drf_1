@@ -8,8 +8,8 @@ class TodoForm extends React.Component{
               
             'text':'',
 
-             "project":0,
-            'creator':0,
+             "project":'',
+            'creator':'',
         }
     }
     handleChange(event){
@@ -29,6 +29,7 @@ class TodoForm extends React.Component{
         }
         let project=0
          for(let option of event.target.selectedOptions){
+             console.log(option.value)
              project=project+(+option.value)
         }
 
@@ -41,12 +42,13 @@ class TodoForm extends React.Component{
 
         if(!event.target.selectedOptions){
             this.setState({
-                'creator':0
+                'creator':''
             })
             return;
         }
         let creator=0
          for(let option of event.target.selectedOptions){
+
            creator=creator+(+option.value)
         }
 
@@ -77,7 +79,7 @@ class TodoForm extends React.Component{
                     {this.props.projects.map((project)=><option value={project.id}>{project.name}</option>) }
                 </select>
                   <select  onChange={(event) => this.handleCreatorSelect(event)}>
-                    {this.props.users.map((user)=><option value={user.id}>{user.username}</option>) }
+                    {this.props.users.map((user)=><option  value={user.id}>{user.username}</option>) }
                 </select>
 
 
