@@ -113,7 +113,7 @@ createTodo(text,project,creator){
                  )
 
              }).catch(error => {console.log(error)
-             }
+             this.setState({users:[]} ,this.setState({projects:[]}))}
          )
 
 }

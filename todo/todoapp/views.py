@@ -46,7 +46,7 @@ class TODOModelViewSet(ModelViewSet):
     def destroy(self, request, *args, **kwargs):
         try:
             instance = self.get_object()
-            instance.is_active = False
+            instance.is_active = True
             instance.save()
         except:
             return Response(status=status.HTTP_404_NOT_FOUND)

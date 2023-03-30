@@ -1,15 +1,15 @@
-import React from "react";
+ import React from "react";
 class TodoForm extends React.Component{
     constructor(props) {
         super(props)
         // console.log(props)
         // this.get_token=props.get_token
         this.state={
-              
+
             'text':'',
 
-             "project":'',
-            'creator':'',
+             "project":0,
+            'creator':0,
         }
     }
     handleChange(event){
@@ -29,7 +29,6 @@ class TodoForm extends React.Component{
         }
         let project=0
          for(let option of event.target.selectedOptions){
-             console.log(option.value)
              project=project+(+option.value)
         }
 
@@ -42,13 +41,12 @@ class TodoForm extends React.Component{
 
         if(!event.target.selectedOptions){
             this.setState({
-                'creator':''
+                'creator':0
             })
             return;
         }
         let creator=0
          for(let option of event.target.selectedOptions){
-
            creator=creator+(+option.value)
         }
 
@@ -79,7 +77,7 @@ class TodoForm extends React.Component{
                     {this.props.projects.map((project)=><option value={project.id}>{project.name}</option>) }
                 </select>
                   <select  onChange={(event) => this.handleCreatorSelect(event)}>
-                    {this.props.users.map((user)=><option  value={user.id}>{user.username}</option>) }
+                    {this.props.users.map((user)=><option value={user.id}>{user.username}</option>) }
                 </select>
 
 
