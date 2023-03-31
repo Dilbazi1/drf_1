@@ -41,12 +41,10 @@ class TODOModelViewSet(ModelViewSet):
     pagination_class = TODOPagination
     filterset_class = TODOFilter
 
-
-
     def destroy(self, request, *args, **kwargs):
         try:
             instance = self.get_object()
-            instance.is_active = True
+            instance.is_active = False
             instance.save()
         except:
             return Response(status=status.HTTP_404_NOT_FOUND)

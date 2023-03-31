@@ -52,8 +52,9 @@ deleteTodo(todoId){
     axios
             .delete(`http://127.0.0.1:8000/api/TODO/${todoId}`, {headers})
             .then(response => {
-
-                    this.load_data()
+                 this.setState({
+                    'todos': this.state.todos.filter((todo) => todo.id != todoId)
+                 })
 
 
             })
@@ -104,7 +105,7 @@ createTodo(text,project,creator){
          console.log(text,project,creator)
     let headers=this.get_headers()
     axios.post(' http://127.0.0.1:8000/api/TODO/',{text:text,project:project,creator:creator},
-        {headers}).then(response=>{
+        {'headers':headers}).then(response=>{
                  this.setState(
                      {
 
@@ -113,7 +114,7 @@ createTodo(text,project,creator){
                  )
 
              }).catch(error => {console.log(error)
-             this.setState({users:[]} ,this.setState({projects:[]}))}
+             }
          )
 
 }
