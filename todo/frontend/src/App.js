@@ -11,6 +11,7 @@ import Footer from "./components/Footer.js";
 import MenuList1 from "./components/Menu.js";
 import  Notfound404 from "./components/Notfound404.js";
 import  LoginForm from "./components/Auth.js";
+
 import  ProjectForm from "./components/ProjectForm.js";
 import  TodoForm from "./components/TodoForm.js";
 import {HashRouter,BrowserRouter,Route,Routes,Link,Navigate} from "react-router-dom";
@@ -132,6 +133,16 @@ get_token(login, password) {
             // this.set_token(response.data['token'])
         }).catch(error => alert('Неверный логин или пароль '))
 }
+searchItem(itemName) {
+    if (itemName === '') {
+      this.load_data();
+      return;
+    }
+    const searchedProjects = this.state.projects.filter(project => {
+      return project.name.toLowerCase().includes(itemName.toLowerCase())
+    });
+    this.setState({'projects': searchedProjects});
+  }
 get_headers(){
          if(this.is_authenticated()){
              return {
@@ -139,13 +150,7 @@ get_headers(){
              }
              return {}
          }
-         // let headers={
-         //     'Content-Type':'aplication/json'
-         // }
-         // if (this.is_authenticated()){
-         //     headers["Authorization"]='Token'+this.state.token
-         // }
-         // return headers
+
 }
 
 
@@ -234,16 +239,20 @@ componentDidMount() {
     },this.load_data)
 
 }
+
+
     render () {
          return(
              <div>
-                 <div>
-                      <MenuList1 users={this.state.users}/>
-                 </div>
 
                   <div>
+              <BrowserRouter>
 
-                      <BrowserRouter>
+                  <div>
+                      <MenuList1  searchItem={(itemName) => {this.searchItem(itemName)}}/>
+                 </div>
+
+
                           {this.state.redirect ? <Navigate to={this.state.redirect} /> : <div/>}
                           <nav>
                               <ul>
@@ -261,6 +270,9 @@ componentDidMount() {
                                   </li>
                                   <li>
                                       <Link to='/create_todo'>Create todo</Link>
+                                  </li>
+                                  <li>
+                                      <Link to='/filter_project'>Filter project</Link>
                                   </li>
                                   <li>
                                       {this.is_authenticated()?
@@ -286,6 +298,7 @@ componentDidMount() {
                                   get_token={(login, password) => this.get_token(login, password)} />}/>
                                <Route path='project/:id' element={<ProjectDetailList projects={this.state.projects}/>}/>
                                <Route  path='*' element={<Notfound404/>}/>
+
                           </Routes>
 
 
