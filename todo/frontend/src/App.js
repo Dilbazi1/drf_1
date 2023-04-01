@@ -271,9 +271,7 @@ componentDidMount() {
                                   <li>
                                       <Link to='/create_todo'>Create todo</Link>
                                   </li>
-                                  <li>
-                                      <Link to='/filter_project'>Filter project</Link>
-                                  </li>
+
                                   <li>
                                       {this.is_authenticated()?
                                           <button onClick={()=>this.logout()}>Logout</button>:

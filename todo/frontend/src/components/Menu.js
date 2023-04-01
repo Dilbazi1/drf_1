@@ -48,10 +48,10 @@ import Button from 'react-bootstrap/Button';
                 onChange={({target}) => this.handleChange(target)}
               />
 
-
+            <Button>
              <Link  to='../projects'
 										onClick={() => this.handleSubmit()}>Search</Link>
-
+             </Button>
          </div>
             </form>
                 )
