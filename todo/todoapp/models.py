@@ -1,7 +1,13 @@
-from django.db import models
+#     deleted=models.BooleanField(default=False)
+
 
 from django.db import models
 from users.models import User
+
+
+class TODOManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(is_active=True, project__in=Project.objects.all())
 
 
 class Project(models.Model):
@@ -14,6 +20,7 @@ class Project(models.Model):
 
 
 class TODO(models.Model):
+    objects = TODOManager()
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     text = models.TextField()
     create = models.DateTimeField(auto_now_add=True)

@@ -11,8 +11,6 @@ from rest_framework.response import Response
 from rest_framework import status
 
 
-
-
 class ProjectPagination(LimitOffsetPagination):
     default_limit = 10
 
@@ -21,17 +19,16 @@ class ProjectModelViewSet(ModelViewSet):
     queryset = Project.objects.all()
     serializer_class = ProjectModelSerializers
     pagination_class = ProjectPagination
+
     # permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
         name = self.request.query_params.get('name', '')
 
-        projects= Project.objects.all()
+        projects = Project.objects.all()
         if name:
-            projects= projects.filter(name__contains=name)
+            projects = projects.filter(name__contains=name)
         return projects
-
-
 
 
 class TODOPagination(LimitOffsetPagination):
@@ -43,13 +40,13 @@ class TODOModelViewSet(ModelViewSet):
     serializer_class = TODOModelSerializers
     pagination_class = TODOPagination
     filterset_class = TODOFilter
-    def destroy(self,request, *args, **kwargs):
-         try:
-            instance= self.get_object()
-            instance.is_active=False
-            instance.save()
-         except:
-             return Response(status=status.HTTP_404_NOT_FOUND)
-         else:
-              return Response(status=status.HTTP_204_NO_CONTENT)
 
+    def destroy(self, request, *args, **kwargs):
+        try:
+            instance = self.get_object()
+            instance.is_active = False
+            instance.save()
+        except:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        else:
+            return Response(status=status.HTTP_204_NO_CONTENT)
