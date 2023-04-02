@@ -4,12 +4,14 @@ class TodoForm extends React.Component{
         super(props)
         // console.log(props)
         // this.get_token=props.get_token
+           this.projects=props.projects
+           this.users=props.users
         this.state={
 
             'text':'',
 
-             "project":0,
-            'creator':0,
+             "project":this.projects[0].id,
+            'creator':this.users[0].id,
         }
     }
     handleChange(event){
