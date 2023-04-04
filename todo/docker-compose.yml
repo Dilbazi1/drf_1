@@ -7,16 +7,22 @@ services:
     ports:
       - 5432:5432
     environment:
-        POSTGRES_USER: todo
-        POSTGRES_PASSWORD: todo
+        POSTGRES_USER: dilbazi12
+        POSTGRES_PASSWORD: 1
         POSTGRES_DB: db
-  adminer:
-    image: adminer:4.7.8-standalone
-    restart: always
+
+  backend:
+    build: ./backend
+    privileged: true
     ports:
       - 8080:8080
-    depends_on:
-      - db
+    command:
+      bash -c "./settings/wait_postgres.sh db 
+      python3 manage.py migrate &&
+      
+      python3 manage.py runserver 0.0.0.0:8080"
+
+
 
 
 
