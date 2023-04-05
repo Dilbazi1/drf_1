@@ -10,18 +10,36 @@ services:
         POSTGRES_USER: dilbazi12
         POSTGRES_PASSWORD: 1
         POSTGRES_DB: db
-
   backend:
-    build: ./backend
+    build:
+      context: ./backend
+      dockerfile: ./Dockerfile
     privileged: true
     ports:
-      - 8080:8080
-    command:
-      bash -c "./settings/wait_postgres.sh db 
-      python3 manage.py migrate &&
-      
-      python3 manage.py runserver 0.0.0.0:8080"
-
+      - 8010:8010
+    command: bash -c "./todo/wait_postgres.sh db && 
+                      python manage.py migrate 
+                   && python manage.py createuser && 
+     gunicorn todo.wsgi:application  -b 0.0.0.0:8010"
+    depends_on:
+      - db
+  nginx:
+    build: ./nginx
+    ports:
+      - 8000:80
+    volumes:
+      - /etc/letsencrypt/:/etc/letsencrypt/
+    depends_on:
+      - backend
+  frontend:
+    build: ./frontend
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - /etc/letsencrypt/:/etc/letsencrypt/
+    depends_on:
+      - nginx
 
 
 
