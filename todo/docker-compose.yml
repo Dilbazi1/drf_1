@@ -1,0 +1,46 @@
+version: '3.1'
+services:
+  db:
+    image: postgres:14
+    privileged: true
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+        POSTGRES_USER: dilbazi12
+        POSTGRES_PASSWORD: 1
+        POSTGRES_DB: db
+  backend:
+    build:
+      context: ./backend
+      dockerfile: ./Dockerfile
+    privileged: true
+    ports:
+      - 8010:8010
+    command: bash -c "./todo/wait_postgres.sh db && 
+                      python manage.py migrate 
+                   && python manage.py createuser && 
+     gunicorn todo.wsgi:application  -b 0.0.0.0:8010"
+    depends_on:
+      - db
+  nginx:
+    build: ./nginx
+    ports:
+      - 8000:80
+    volumes:
+      - /etc/letsencrypt/:/etc/letsencrypt/
+    depends_on:
+      - backend
+  frontend:
+    build: ./frontend
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - /etc/letsencrypt/:/etc/letsencrypt/
+    depends_on:
+      - nginx
+
+
+
+
